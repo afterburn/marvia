@@ -1,0 +1,43 @@
+{
+  "name": "elevator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "build-hot": "webpack -w",
+    "serve": "node server",
+    "serve-hot": "nodemon server",
+    "start": "concurrently \"npm run build\" \"npm run serve\"",
+    "dev": "concurrently \"npm run build-hot\" \"npm run serve-hot\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.14.8",
+    "@babel/preset-react": "^7.14.5",
+    "@types/lodash": "^4.14.171",
+    "@types/react": "^17.0.15",
+    "@types/styled-components": "^5.1.11",
+    "babel-loader": "^8.2.2",
+    "concurrently": "^6.2.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "html-webpack-plugin": "^5.3.2",
+    "ts-loader": "^9.2.4",
+    "webpack": "^5.47.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "classnames": "^2.3.1",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "omit.js": "^2.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "styled-components": "^5.3.0"
+  }
+}
