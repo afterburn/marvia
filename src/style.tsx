@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   :root {
@@ -18,4 +18,4 @@ export default createGlobalStyle`
   html, body {
     background-color: #E5E5EA;
   }
-`
+`;

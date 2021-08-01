@@ -1,47 +1,88 @@
-import React from 'react'
-import styled from 'styled-components'
-import cn from 'classnames'
+import React from "react";
+import styled from "styled-components";
+import cn from "classnames";
 
-import ElevatorContext from '../context/ElevatorContext'
+import ElevatorState from "../context/ElevatorState";
+import ElevatorStateUpdate from "../types/ElevatorStateUpdate";
 
 interface IProps {
-  className: string
+  className: string;
 }
 
 const Elevator: React.FC = styled((props: IProps) => {
-  const {
-    queue,
-    addFloorToQueue,
-    execute,
-    direction,
-    currentFloor,
-    yOffset,
-    duration
-  } = React.useContext(ElevatorContext)
+  const progressRef = React.useRef();
 
-  return <div className={props.className} style={{
-    transform: `translate3d(0px, -${yOffset}px, 0)`,
-    transition: `transform ${duration}ms linear`
-  }}>
-    <span>{currentFloor + 1} {direction}</span>
-    <div className='buttons'>
-      {Array.from(Array(5)).map((_, i) => {
-        const isQueued = queue.findIndex(j => j.floor === i) !== -1
-        const buttonClass = cn({
-          active: isQueued,
-          current: currentFloor === i
-        })
+  const [data, setData] = React.useState({
+    queue: [],
+    direction: "up",
+    currentFloor: 0,
+    yOffset: 0
+  });
 
-        return <button
-          key={i}
-          className={buttonClass}
-          onClick={() => addFloorToQueue(i)}>
-            {i + 1}
-        </button>
-      })}
-      <button onClick={() => execute()}>Go</button>
+  React.useEffect(() => {
+    // Subscribe to the update event.
+    ElevatorState.on("update", (update: ElevatorStateUpdate) => {
+      setData(update);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    // Effect that subscribes to the wait event on the elevator.
+    // This will trigger and reset that wait timer.
+    if (progressRef.current) {
+      ElevatorState.on("wait", (state: Boolean) => {
+        const progress: any = progressRef.current;
+        progress.style.transform = state
+          ? `scale3d(1, 1, 1)`
+          : `scale3d(0, 1, 1)`;
+        if (state) {
+          progress.classList.remove("animate");
+        } else {
+          progress.classList.add("animate");
+          setTimeout(() => {
+            progress.classList.remove("animate");
+            progress.style.transform = `scale3d(1, 1, 1)`;
+          }, 3000);
+        }
+      });
+    }
+  }, [progressRef.current]);
+
+  return (
+    <div
+      className={props.className}
+      style={{
+        transform: `translate3d(0px, -${data.yOffset}px, 0)`,
+        transition: `transform 3s linear`
+      }}
+    >
+      <span>
+        {data.currentFloor + 1} {data.direction}
+      </span>
+      <div className="buttons">
+        {Array.from(Array(5)).map((_, i) => {
+          const isQueued = data.queue.findIndex((j) => j.floor === i) !== -1;
+          const buttonClass = cn({
+            active: isQueued,
+            current: data.currentFloor === i
+          });
+
+          return (
+            <button
+              key={i}
+              className={buttonClass}
+              onClick={() => ElevatorState.addFloor(i)}
+            >
+              {i + 1}
+            </button>
+          );
+        })}
+      </div>
+      <div className="progress">
+        <div className="bar" ref={progressRef} />
+      </div>
     </div>
-  </div>
+  );
 })`
   position: absolute;
   bottom: 0;
@@ -50,7 +91,7 @@ const Elevator: React.FC = styled((props: IProps) => {
   border-radius: var(--borderRadius);
   width: var(--floorSize);
   height: var(--floorSize);
-  background-color: #13B38B;
+  background-color: #13b38b;
 
   display: flex;
   flex-direction: column;
@@ -95,6 +136,28 @@ const Elevator: React.FC = styled((props: IProps) => {
       }
     }
   }
-`
 
-export default Elevator
+  .progress {
+    width: calc(100% - 8px);
+    margin: 2px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+
+    .bar {
+      height: 100%;
+      width: 100%;
+      background-color: var(--accentColor);
+      border-radius: 1px;
+      transform: scale3d(1, 1, 1);
+      transform-origin: center left;
+      transition: unset;
+
+      &.animate {
+        transition: transform 3s linear;
+      }
+    }
+  }
+`;
+
+export default Elevator;
