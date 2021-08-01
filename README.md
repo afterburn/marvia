@@ -23,5 +23,5 @@ Build a simple web application in React that simulates a working elevator. The e
 
 ## Improvements
 
-1. Improve animation, right now when moving from floor 1 to 2 takes 3 seconds but moving from floor 1 to 5 also takes 3 seconds. Ideally, I would want to manually control the y position of the elevator instead of using a CSS animation to fix this 'bug'.
+1. Improve animation, right now when moving from floor 1 to 2 it takes 3 seconds for the elevator to reach the target floor but moving from floor 1 to 5 also takes 3 seconds. This results in an inconsistent speed. Ideally, I would want to manually control the y position of the elevator instead of using a CSS animation to fix this bug and make the elevator move at a consistent speed.
 2. Make use of something like React Context instead of using the custom ElevatorState class which implements a publish/subscribe pattern. I ran into some issues with Context which is why I switched to the pubsub pattern but ideally I would want to make this work within React itself.
