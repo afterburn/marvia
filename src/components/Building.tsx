@@ -1,15 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ElevatorProvider } from '../context/elevator'
+import { ElevatorProvider } from '../context/ElevatorContext'
 
 import Floor from './Floor'
 import Elevator from './Elevator'
 
-const Building = styled(({ className }) => {
-  return <div className={className}>
+interface IProps {
+  className: string
+}
+
+const Building : React.FC = styled((props: IProps) => {
+  return <div className={props.className}>
     <ElevatorProvider>
       {Array.from(Array(5)).map((_, i) => {
-        return <Floor key={i} index={i} />
+        return <Floor key={i} index={4 - i} total={5} />
       })}
       <Elevator />
     </ElevatorProvider>

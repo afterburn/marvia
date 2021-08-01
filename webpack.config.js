@@ -7,7 +7,7 @@ const dist = path.join(__dirname, 'dist')
 
 module.exports = {
   mode: 'development',
-  entry: ['@babel/polyfill', path.join(src, 'index.js')],
+  entry: ['@babel/polyfill', path.join(src, 'index.tsx')],
   output: {
     filename: '[name].bundle.js',
     path: dist

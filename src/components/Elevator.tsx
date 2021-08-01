@@ -2,41 +2,44 @@ import React from 'react'
 import styled from 'styled-components'
 import cn from 'classnames'
 
-import ElevatorContext from '../context/elevator'
+import ElevatorContext from '../context/ElevatorContext'
 
-const Elevator = styled(({ className }) => {
+interface IProps {
+  className: string
+}
+
+const Elevator: React.FC = styled((props: IProps) => {
   const {
-    currentFloor,
-    targetFloor,
-    calculateOffset,
     queue,
     addFloorToQueue,
-    duration,
+    execute,
     direction,
-    execute
+    currentFloor,
+    yOffset,
+    duration
   } = React.useContext(ElevatorContext)
-  
-  const yOffset = calculateOffset(targetFloor)
 
-  return <div className={className} style={{
-    transform: `translate3d(0px, -${yOffset}px, 0px)`,
+  return <div className={props.className} style={{
+    transform: `translate3d(0px, -${yOffset}px, 0)`,
     transition: `transform ${duration}ms linear`
   }}>
     <span>{currentFloor + 1} {direction}</span>
     <div className='buttons'>
       {Array.from(Array(5)).map((_, i) => {
-        const isQueued = queue.findIndex(j => j === i) !== -1
+        const isQueued = queue.findIndex(j => j.floor === i) !== -1
+        const buttonClass = cn({
+          active: isQueued,
+          current: currentFloor === i
+        })
+
         return <button
           key={i}
-          className={cn({
-            active: isQueued,
-            current: currentFloor === i
-          })}
+          className={buttonClass}
           onClick={() => addFloorToQueue(i)}>
             {i + 1}
         </button>
       })}
-      <button onClick={execute}>Go</button>
+      <button onClick={() => execute()}>Go</button>
     </div>
   </div>
 })`
@@ -65,10 +68,10 @@ const Elevator = styled(({ className }) => {
   .buttons {
     display: flex;
     flex-wrap: wrap;
-    width: 56px;
+    width: 48px;
 
     button {
-      flex: 0 1 calc(50% - 8px);
+      flex: 0 1 calc(50% - 4px);
       border-radius: 50%;
       border: 0;
 
@@ -78,16 +81,16 @@ const Elevator = styled(({ className }) => {
 
       width: 20px;
       height: 20px;
-      margin: 4px;
+      margin: 2px;
       font-weight: bold;
 
       &.active {
-        border: 1px solid #9457FF;
-        color: #9457FF;
+        border: 1px solid var(--accentColor);
+        color: var(--accentColor);
       }
 
       &.current {
-        background-color: #9457FF;
+        background-color: var(--accentColor);
         color: white;
       }
     }

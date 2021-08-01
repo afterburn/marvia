@@ -6,8 +6,12 @@ import GlobalStyle from './style'
 
 import Building from './components/Building'
 
-const App = styled(({ className }) => {
-  return <div className={className}>
+interface IProps {
+  className: string
+}
+
+const App : React.FC = styled((props: IProps) => {
+  return <div className={props.className}>
     <GlobalStyle />
     <Building />
   </div>

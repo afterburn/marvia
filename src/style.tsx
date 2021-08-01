@@ -3,7 +3,8 @@ import { createGlobalStyle } from 'styled-components'
 export default createGlobalStyle`
   :root {
     --borderRadius: 4px;
-    --floorSize: 140px;
+    --floorSize: 120px;
+    --accentColor: #9457FF;
   }
 
   * {

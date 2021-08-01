@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack",
     "build-hot": "webpack -w",
-    "serve": "node server",
-    "serve-hot": "nodemon server",
+    "serve": "node index",
+    "serve-hot": "nodemon index",
     "start": "concurrently \"npm run build\" \"npm run serve\"",
     "dev": "concurrently \"npm run build-hot\" \"npm run serve-hot\""
   },
@@ -21,12 +21,14 @@
     "@babel/preset-react": "^7.14.5",
     "@types/lodash": "^4.14.171",
     "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
     "@types/styled-components": "^5.1.11",
     "babel-loader": "^8.2.2",
     "concurrently": "^6.2.0",
     "copy-webpack-plugin": "^9.0.1",
     "html-webpack-plugin": "^5.3.2",
     "ts-loader": "^9.2.4",
+    "typescript": "^4.3.5",
     "webpack": "^5.47.0",
     "webpack-cli": "^4.7.2"
   },
@@ -37,6 +39,7 @@
     "omit.js": "^2.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.3.0"
   }
