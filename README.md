@@ -18,7 +18,7 @@ Build a simple web application in React that simulates a working elevator. The e
 ## Usage
 
 ```shell
-  npm start (wait until webpack build is finished before visiting url)
+  npm start (wait until webpack build is finished before visiting http://localhost:3000)
 ```
 
 ## Improvements
